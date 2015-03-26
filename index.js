@@ -29,20 +29,14 @@ module.exports = function() {
 				})
 				.on('disconnect', function(worker) {
 					if (!worker.suicide) self._clusterErr = 'Worker at PID ' + worker.process.pid + ' died';
-					// FIXME: Never launch more tasks
-					if (1 || self._clusterErr || !self._clusterTasks.length) {
+					if (self._clusterErr || !self._clusterTasksWaiting.length) {
 						// Error occured or no more tasks to run
-						console.log('Nothing to do');
-						if (cluster.workers && Object.keys(cluster.workers).length == 0) { // No more tasks running
-							console.log('All finished');
+						if (cluster.workers && Object.keys(cluster.workers).length == 0) // No more tasks running
 							self._execute(self.clusterErr);
-						}
 					} else {
-						console.log('Spawn new');
 						cluster.fork().on('message', self._clusterWorkerMessage);
 						self._clusterWorkerAlloc();
 					}
-					console.log('WORKER at PID ' + worker.process.pid + ' closed');
 				});
 
 			// Spawn however many cluster workers we need
@@ -55,7 +49,6 @@ module.exports = function() {
 
 	this._clusterWorkerAlloc = function() {
 		if (!cluster.isWorker) return; // Only act on workers
-		console.log('I am worker', process.pid);
 
 		process.on('message', function(msg) {
 			if (msg.cmd == 'acc.allocateTask') {
