@@ -1,3 +1,6 @@
+**WARNING: This plugin is still experimental. Use at your own risk until this message is removed**
+
+
 async-chainable-cluster
 =======================
 Plugin for [async-chainable](https://github.com/hash-bang/async-chainable) that adds clustering for tasks.
