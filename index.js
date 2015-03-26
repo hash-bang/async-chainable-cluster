@@ -1,6 +1,5 @@
-var _ = require('lodash');
-
 var cluster = require('cluster');
+var os = require('os');
 
 module.exports = function() {
 	var self = this;
@@ -126,6 +125,25 @@ module.exports = function() {
 		return this;
 	};
 	// }}}
+	// .clusterLimit {{{
+	this._plugins['clusterLimit'] = function(params) {
+		if (params.payload > 0) {
+			this._clusterLimit = params.payload;
+		} else { // Default to number of CPU cores
+			this._clusterLimit = os.cpus().length;
+		}
+		this._execute(); // Move onto next chain item
+	};
+
+	this.clusterLimit = function() {
+		this._struct.push({
+			type: 'clusterLimit',
+			payload:  arguments[0],
+		});
+
+		return this;
+	};
+	// }}}
 
 	// Core module overrides {{{
 	/**
@@ -145,7 +163,7 @@ module.exports = function() {
 	}
 	// }}}
 
-	this._clusterLimit = 3;
+	this._clusterLimit = os.cpus().length;
 	this._clusterTasks = null;
 	this._clusterHasErr = false;
 };

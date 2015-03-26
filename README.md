@@ -31,6 +31,8 @@ async-chainable-cluster provides a single function, `cluster()` which can be cal
 
 	cluster(Array <tasks>) // Execute all tasks spread across multiple cores
 
+	clusterLimit(Number) // Limit the number of active clusters to this value, if falsy this defaults to the number of CPU cores within the OS
+
 
 How it works
 ============
