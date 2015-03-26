@@ -1,0 +1,34 @@
+{
+  "name": "async-chainable-cluster",
+  "version": "0.0.0",
+  "description": "Plugin for async-chainable that provides clustering support",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hash-bang/async-chainable-cluster"
+  },
+  "license": "MIT",
+  "keywords": [
+    "async",
+    "async-chainable",
+    "cluster",
+    "clustering"
+  ],
+  "author": "Matt Carter <m@ttcarter.com>",
+  "bugs": {
+    "url": "https://github.com/hash-bang/async-chainable-cluster/issues"
+  },
+  "homepage": "https://github.com/hash-bang/async-chainable-cluster",
+  "scripts": {
+    "coverage": "istanbul cover node_modules/.bin/_mocha",
+    "test": "mocha test"
+  },
+  "devDependencies": {
+    "async-chainable": "^1.7.4",
+    "chai": "^1.10.0",
+    "istanbul": "^0.3.5",
+    "mocha": "^2.1.0",
+    "mocha-istanbul": "^0.2.0"
+  },
+  "dependencies": {}
+}
