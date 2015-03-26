@@ -31,8 +31,12 @@ module.exports = function() {
 					if (!worker.suicide) self._clusterErr = 'Worker at PID ' + worker.process.pid + ' died';
 					if (self._clusterErr || !self._clusterTasksWaiting.length) {
 						// Error occured or no more tasks to run
-						if (cluster.workers && Object.keys(cluster.workers).length == 0) // No more tasks running
+						if (cluster.workers && Object.keys(cluster.workers).length == 0) { // No more tasks running
+							self._clusterTasks = []; // Free up callback memory
+							self._clusterTasksWaiting = null;
+							self._clusterErr = null;
 							self._execute(self.clusterErr);
+						}
 					} else {
 						cluster.fork().on('message', self._clusterWorkerMessage);
 						self._clusterWorkerAlloc();
@@ -158,5 +162,5 @@ module.exports = function() {
 
 	this._clusterLimit = os.cpus().length;
 	this._clusterTasks = null;
-	this._clusterHasErr = false;
+	this._clusterErr = null;
 };
